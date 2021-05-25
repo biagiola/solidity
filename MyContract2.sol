@@ -12,7 +12,23 @@ contract MyContract {
         state = State.Active;
     }
     
+    function waiting() public {
+        state = State.Waiting;
+    }
+    
+    function ready() public {
+        state = State.Ready;
+    }
+    
     function isActive() public view returns(bool) {
         return state == State.Active;
+    }
+    
+    function isWaiting() public view returns(bool) {
+        return state == State.Waiting;
+    }
+    
+    function isReady() public view returns(bool) {
+        return state == State.Ready;
     }
 }
