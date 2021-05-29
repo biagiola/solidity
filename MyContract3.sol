@@ -25,7 +25,7 @@ contract MyContract01 {
         while (position < peopleCount) {
             
             // look if emails are equals
-            if (keccak256(abi.encode(a)) == keccak256(abi.encode(account[0].email)) ) {
+            if (keccak256(abi.encode(a)) == keccak256(abi.encode(account[position].email)) ) {
                 
                 // save the account found
                 string memory result = account[position].email;
@@ -36,6 +36,8 @@ contract MyContract01 {
             
             position += 1;
         }
+        
+        return "user not found";
     }
 }
 
