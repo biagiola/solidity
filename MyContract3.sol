@@ -22,11 +22,11 @@ contract MyContract01 {
     function findAccount(string memory a) public view returns (Accounts memory) {
         
         // set our initial position
-        uint256 position = 0;
+        uint8 position = 0;
         
         // loop all the values
         while (position < peopleCount) {
-            
+        
             // look if emails are equals
             if (keccak256(abi.encode(a)) == keccak256(abi.encode(account[position].email)) ) {
                 
@@ -43,9 +43,15 @@ contract MyContract01 {
             }
             
             position += 1;
+            
+            // we reach this the last time where the above if statement was not success
+            if (position == peopleCount) {
+                //return "user not found";    
+            }
+            
         }
         
-        //return "user not found";
+        
     }
     
     function updateAccount(
