@@ -84,6 +84,8 @@ contract MyContract01 {
 
 // abi.encode() -> convert string into bytes
 
+// Keccak is a fundamental part of solidity. Is a Secure hash algorithm
+
 // bytes(a).length != bytes(people[0]._email).length  -> compare lengths
 
 // constant was removed in version 0.5.0 insted we use "view" or "pure"
