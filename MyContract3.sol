@@ -85,6 +85,13 @@ contract MyContract01 {
 // abi.encode() -> convert string into bytes
 
 // Keccak is a fundamental part of solidity. Is a Secure hash algorithm. Ethereum-SHA-3
+/* tightly packed arguments, means that below exmaple are equals
+keccak256("ab", "c")
+keccak256("abc")
+keccak256(0x616263)
+keccak256(6382179)
+keccak256(97, 98, 99)
+*/
 
 // bytes(a).length != bytes(people[0]._email).length  -> compare lengths
 
