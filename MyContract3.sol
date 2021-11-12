@@ -1,21 +1,33 @@
-//pragma solidity ^0.5.1;
+pragma solidity ^0.5.1;
 pragma experimental ABIEncoderV2; // this allow us to return structs
 
 contract MyContract01 {
-    Accounts[] public account;
-    
-    uint256 peopleCount;
-    
     struct Accounts {
         string email;
         uint position;
+    }
+    
+    struct Messages {
+        string message;
+        uint position;
+    }
+    
+    Accounts[] public account;
+    Messages[] public message;
+    uint256 peopleCount;
+    
+    
+    
+    constructor() public {
+        message.push( Messages("Error. User not found", 0) );
+        message.push( Messages("User was updated", 1) );
+        message.push( Messages("Error. User not updated", 2) );
     }
     
     function addAccount(
         string memory email  
     ) public {
         account.push( Accounts(email, peopleCount) );
-        
         peopleCount += 1;
     }
     
@@ -24,34 +36,29 @@ contract MyContract01 {
         // set our initial position
         uint8 position = 0;
         
+        bool wasFound = false;
+        
         // loop all the values
         while (position < peopleCount) {
-        
+            
             // look if emails are equals
-            if (keccak256(abi.encode(a)) == keccak256(abi.encode(account[position].email)) ) {
-                
-                // save the account found
-                //struct  result = { account[position] }
-                
-                /*struct result2 {
-                    string email;
-                    uint position;
-                }*/
-                
+            if (keccak256(abi.encode(a)) == keccak256(abi.encode(account[position].email)) ) {            
                 // end of the loop
+                wasFound = true;
                 return account[position];
             }
             
-            position += 1;
-            
-            // we reach this the last time where the above if statement was not success
-            if (position == peopleCount) {
-                //return "user not found";    
-            }
-            
+            position += 1;   
         }
         
-        
+        // not found user
+        if(!wasFound) {
+            return errorMessage();
+        }
+    }
+    
+    function errorMessage() private view returns (Messages memory) {
+        return message[0];
     }
     
     function updateAccount(
@@ -81,6 +88,7 @@ contract MyContract01 {
         return "user not found";
     }
 }
+
 
 // abi.encode() -> convert string into bytes
 
