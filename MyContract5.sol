@@ -1,42 +1,33 @@
-pragma solidity ^0.5.1;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.13;
 
 contract MyContract {
-    uint256 public peopleCount;
-    mapping(uint => Person) public people2;
-    
-    address public owner;
-    
+    struct Person {
+        uint id;
+        string firstName;
+        string lastName;
+    }
+    mapping(uint => Person) public list;
+
+    uint256 public counter;
+    address public owner;   
+
     modifier onlyOwner() {
         require(msg.sender == owner);
         _;
     }
     
-    struct Person {
-        uint _id;
-        string _firstName;
-        string _lastName;
-    }
-    
-    constructor() public {
-        owner = msg.sender;
-    }
+    constructor() { owner = msg.sender; }
     
     function addPerson(
-        string memory _firstName, 
-        string memory _lastName
+        string memory firstName, 
+        string memory lastName
     ) 
-        public 
-        onlyOwner
+        public onlyOwner
     {
-        people2[peopleCount] = Person(peopleCount, _firstName, _lastName);
+        list[counter] = Person(counter, firstName, lastName);
         
-        incrementCount();
+        counter += 1;
     }
-    
-    function incrementCount() internal {
-        peopleCount += 1;
-    }
-    
-    
 }
 
