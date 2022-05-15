@@ -9,14 +9,13 @@ contract MyContract {
     }
     mapping(uint => Person) public list;
 
-    uint256 public counter;
     address public owner;   
-
+    uint256 public counter;
+    
     constructor() { owner = msg.sender; }
 
     modifier onlyOwner() {
-        require(msg.sender == owner);
-        _;
+        require(msg.sender == owner); _;
     }
     
     function addPerson(
@@ -26,8 +25,6 @@ contract MyContract {
         public onlyOwner
     {
         list[counter] = Person(counter, firstName, lastName);
-        
         counter += 1;
     }
 }
-
