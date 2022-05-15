@@ -1,11 +1,12 @@
-pragma solidity ^0.5.1;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.13;
 
 contract MyContract {
     mapping(address => uint256) public balances;
     
     address payable wallet;
     
-    constructor(address payable _wallet) public {
+    constructor(address payable _wallet) {
         wallet = _wallet;
     }
     
@@ -15,8 +16,7 @@ contract MyContract {
         
         // send ether to a wallet 
         wallet.transfer(msg.value);
-        
-        // what is msg exactly?
     }
-    
 }
+
+// 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
