@@ -12,12 +12,12 @@ contract MyContract {
     uint256 public counter;
     address public owner;   
 
+    constructor() { owner = msg.sender; }
+
     modifier onlyOwner() {
         require(msg.sender == owner);
         _;
     }
-    
-    constructor() { owner = msg.sender; }
     
     function addPerson(
         string memory firstName, 
