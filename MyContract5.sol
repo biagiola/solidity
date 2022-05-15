@@ -28,3 +28,6 @@ contract MyContract {
         counter += 1;
     }
 }
+
+// what is _;
+// https://www.educative.io/edpresso/what-is-in-solidity
