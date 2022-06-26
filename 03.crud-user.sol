@@ -1,18 +1,25 @@
-pragma solidity ^0.4.24;
-pragma experimental ABIEncoderV2;
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
 contract MyContract {
-    constructor() public {
-        messages.push(Message("User was added", 0));
-        messages.push(Message("User was updated", 1));
-        messages.push(Message("User was not updated", 2));
-        messages.push(Message("User was deleted", 3));
-        messages.push(Message("User was not deleted", 4));
+    constructor() {
+        // default user
+        accounts.push(Account(0, "David"));
+        accounts.push(Account(1, "Jules"));
+        accounts.push(Account(2, "Stephen"));
+        
+        // default messages
+        messages.push(Message(0, "User was added"));
+        messages.push(Message(1, "User was updated"));
+        messages.push(Message(2, "User was not updated"));
+        messages.push(Message(3, "User was deleted"));
+        messages.push(Message(4, "User was not deleted"));
     }
 
     struct Message {
-        string text;
         uint position;
+        string text;
     }
     Message[] internal messages;
 
@@ -21,50 +28,62 @@ contract MyContract {
         string name;
     }
     Account[] internal accounts;
-    uint id = 0;     
 
-    function createUser(
+    function createUser  (
         string memory name
-    ) public returns(string memory) {
-        accounts.push(Account(id, name));
-        id++;
+    ) public payable returns(string memory) {
+        accounts.push(Account(accounts.length, name));
         return messages[0].text;
     }
 
-    function readAll() public view returns(Account[]) {
+    function readAll() public view returns(Account[] memory) {
         return accounts;
     }
 
+    function accountLengths() public view returns(uint256) {
+        uint256 len = accounts.length;
+        uint256 c;
+        uint256 d = 0;
+        for(c = 0; c < len; c++) {
+            d++;
+            if(keccak256(abi.encode(accounts[c].name)) == keccak256(abi.encode(""))) {
+                d--;
+            }
+        }
+        return d;
+    }
+
+
     function readOneById(
         uint localId
-    ) public view returns(Account) {
+    ) public view returns(Account memory) {
         uint c;
-        for(c=0; c<accounts.length; c++) {
+        for(c = 0; c < accounts.length; c++) {
             if(accounts[c].id == localId) {
                 return accounts[c];
-                c++;
             } 
         }
+        return accounts[0];
     }
 
     function readOneByName(
-        string localName
-    ) public view returns(Account) {
+        string memory localName
+    ) public view returns(Account memory) {
         uint c;
-        for(c=0; c<accounts.length; c++) {
+        for(c = 0; c < accounts.length; c++) {
             if(keccak256(abi.encode(accounts[c].name)) == keccak256(abi.encode(localName)) ) {  
                 return accounts[c];
-                c++;
             } 
         }
+        return accounts[0];
     }
 
     function updateUser(
         uint localId,
-        string localName
+        string memory localName
     ) public payable returns(string memory) {
         uint c;
-        for(c=0; c<accounts.length; c++) {
+        for(c = 0; c < accounts.length; c++) {
             if(accounts[c].id == localId) {
                 accounts[c].name = localName;
                 return messages[1].text;
@@ -75,9 +94,8 @@ contract MyContract {
 
     function deleteUser(
         uint localId
-    ) public returns (string memory) {
+    ) public payable returns (string memory) {
         delete accounts[localId];
-        id--;
         return messages[3].text;
     }
 }
